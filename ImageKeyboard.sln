@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageKeyboard", "ImageKeyboard\ImageKeyboard.csproj", "{CDD498E8-325F-47B6-86AA-A58FEA5D16ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageKeyboard.UITests", "ImageKeyboard.UITests\ImageKeyboard.UITests.csproj", "{E2E0BE5A-9F1B-43B5-8457-8904A3CBB2CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDD498E8-325F-47B6-86AA-A58FEA5D16ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDD498E8-325F-47B6-86AA-A58FEA5D16ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDD498E8-325F-47B6-86AA-A58FEA5D16ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDD498E8-325F-47B6-86AA-A58FEA5D16ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2E0BE5A-9F1B-43B5-8457-8904A3CBB2CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2E0BE5A-9F1B-43B5-8457-8904A3CBB2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2E0BE5A-9F1B-43B5-8457-8904A3CBB2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2E0BE5A-9F1B-43B5-8457-8904A3CBB2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
