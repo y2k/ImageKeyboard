@@ -39,3 +39,4 @@ Thumbs.db
 #dotCover
 *.dotCover
 api-keys.ini
+Resource.designer.cs
