@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Graphics;
 using Android.OS;
+using Android.Views;
 using Android.Webkit;
 using Android.Widget;
 using DropNetRT;
@@ -16,14 +20,13 @@ namespace ImageKeyboard
     {
         WebView browser;
 
-        ArrayAdapter<string> adapter;
+        Adaptar adapter = new Adaptar();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
 
-            adapter = new ArrayAdapter<string>(this, global::Android.Resource.Layout.SimpleListItem1);
             FindViewById<ListView>(Resource.Id.list).Adapter = adapter;
 
             browser = FindViewById<WebView>(Resource.Id.browser);
@@ -49,10 +52,62 @@ namespace ImageKeyboard
             await regClient.Callback.Task;
             await client.GetAccessToken();
 
-            var list = await client.GetMetaData("/");
-            foreach (var s in list.Contents)
-                adapter.Add(s.Name);
-            browser.Visibility = Android.Views.ViewStates.Gone;
+            browser.Visibility = ViewStates.Gone;
+
+            var items = new List<Adaptar.Item>();
+            foreach (var file in (await client.GetMetaData("/")).Contents.Take(10))
+            {
+                var buffer = await client.GetThumbnail(file);
+                items.Add(
+                    new Adaptar.Item
+                    {
+                        Title = file.Name,
+                        Icon = await BitmapFactory.DecodeByteArrayAsync(buffer, 0, buffer.Length),
+                    });
+            }
+            adapter.Update(items);
+        }
+
+        class Adaptar : BaseAdapter
+        {
+            List<Item> items;
+
+            internal void Update(List<Item> items)
+            {
+                this.items = items;
+                NotifyDataSetChanged();
+            }
+
+            public override Java.Lang.Object GetItem(int position)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override long GetItemId(int position)
+            {
+                return position;
+            }
+
+            public override View GetView(int position, View convertView, ViewGroup parent)
+            {
+                if (convertView == null)
+                    convertView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item, parent, false);
+
+                var item = items[position];
+                convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Title;
+                convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageBitmap(item.Icon);
+
+                return convertView;
+            }
+
+            public override int Count { get { return items?.Count ?? 0; } }
+
+            internal class Item
+            {
+                internal Bitmap Icon { get; set; }
+
+                internal string Title { get; set; }
+            }
         }
 
         class KeyStorage
